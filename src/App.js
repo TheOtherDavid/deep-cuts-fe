@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 //import './App.css';
@@ -11,11 +11,13 @@ const code = new URLSearchParams(window.location.search).get('code')
 
 function App() {
   const [playlist, setPlaylist] = useState("");
+  const [token, setToken] = useState("");
   //return code ? <GenerateForm code={code} /> : <Login />
-  if (code == null) {
-   return <Login />
+  if (code == null && token == '') {
+    return <Login />
   } else {
     return <>
+     <GetToken />
      <GetPlaylistForm code={code} />
      <GeneratePlaylist code={code} />
     </>
@@ -122,4 +124,16 @@ function GeneratePlaylist() {
       </div>
   </div>
   </>
+}
+
+function GetToken() {
+  const [token, setToken] = useState([]);
+  useEffect(async() => {
+    const resp = await axios.get(`http://localhost:8080/token?code=${code}`)
+    const token = resp.token
+
+    setToken(token);
+  }, []);
+
+  return null
 }
