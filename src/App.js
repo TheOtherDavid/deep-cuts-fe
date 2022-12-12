@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Button } from 'react-bootstrap';
 import Login from './Login'
 
 const code = new URLSearchParams(window.location.search).get('code')
@@ -12,10 +13,14 @@ function App() {
   const [token, setToken] = useState("");
 
   return (
-    <div>
+    <div className="playlist-container">
       {!token && <Login onLogin={setToken} />}
-      {token && <GetPlaylistForm token={token} />}
-      {token && <GeneratePlaylist token={token} />}
+      <div className="get-playlist-form-container">
+        {token && <GetPlaylistForm token={token} />}
+      </div>
+      <div className="generate-playlist-container">
+        {token && <GeneratePlaylist token={token} />}
+      </div>
     </div>
   );
 };
@@ -41,31 +46,30 @@ function GetPlaylistForm({ token }) {
 
   return (
     <div className="main">
-      <form onSubmit={handleSubmit}>
-          <input type="text" 
-          name="playlistId"
-          placeholder="Playlist ID" 
-          onChange={(e) => setPlaylistId(e.target.value)} />
-          <button type="submit">Get Playlist!</button>
-      </form>
-      {(playlistId === "" || playlistId === "undefined") &&
-      <div>
-        Enter a Playlist ID.
+      <div className="form">
+        <form onSubmit={handleSubmit}>
+            <input type="text" 
+            name="playlistId"
+            placeholder="Playlist ID" 
+            onChange={(e) => setPlaylistId(e.target.value)} />
+            <Button variant="primary" type="submit" className="green-button">Get Playlist!</Button>
+        </form>
       </div>
-      }
-      <div>
-      {(playlists === "" || playlists === undefined) &&
-      <div>No list</div>}
+      <div className="song-list">
       {playlists && playlists.map(playlist =>
-        <div>
-              <div>Track: </div>
-              <img src={playlist.album.images[2].url}></img>
-              <div>Song: {playlist.name}</div>
-              <div>Artist: {playlist.artists[0].name}</div>
-              <a href={playlist.external_urls.spotify} target="_blank">Listen!</a>
-              <div>Link: {playlist.external_urls.spotify}</div>
+        <div className="song-item">
+          <div>Track: </div>
+          <div className="song-thumbnail">
+            <img src={playlist.album.images[2].url}></img>
+          </div>
+          <div className="song-info">
+            <div>Song: {playlist.name}</div>
+            <div>Artist: {playlist.artists[0].name}</div>
+            <a href={playlist.external_urls.spotify} target="_blank">Listen!</a>
+            <div>Link: {playlist.external_urls.spotify}</div>
+          </div>
         </div>
-    )}
+      )}
       </div>
     </div>
   );
@@ -101,32 +105,31 @@ function GeneratePlaylist({ token }) {
   };
   return <>
     <div className="main">
-      <form onSubmit={handleSubmit}>
-          <input type="text" 
-          name="playlistId"
-          placeholder="Playlist ID" 
-          onChange={(e) => setPlaylistId(e.target.value)} />
-          <button type="submit">Generate Deep Cut Playlist!</button>
-      </form>
-      {(playlistId === "" || playlistId === "undefined") &&
-      <div>
-        Enter a Playlist ID.
+      <div className="form">
+        <form onSubmit={handleSubmit}>
+            <input type="text" 
+            name="playlistId"
+            placeholder="Playlist ID" 
+            onChange={(e) => setPlaylistId(e.target.value)} />
+            <Button variant="primary" type="submit" className="green-button">Generate Deep Cut Playlist!</Button>
+        </form>
       </div>
-      }
-      <div>
-      {(playlists === "" || playlists === undefined) &&
-      <div>No list</div>}
+      <div className="song-list">
       {playlists &&
         <div>Your new playlist: </div>}
       {playlists && playlists.map(playlist =>
-          <div>
-                <div>Track: </div>
-                <img src={playlist.album.images[2].url}></img>
-                <div>Song: {playlist.name}</div>
-                <div>Artist: {playlist.artists[0].name}</div>
-                <a href={playlist.external_urls.spotify} target="_blank">Listen!</a>
-                <div>Link: {playlist.external_urls.spotify}</div>
+        <div className="song-item">
+          <div>Track: </div>
+          <div className="song-thumbnail">
+            <img src={playlist.album.images[2].url}></img>
           </div>
+          <div className="song-info">
+            <div>Song: {playlist.name}</div>
+            <div>Artist: {playlist.artists[0].name}</div>
+            <a href={playlist.external_urls.spotify} target="_blank">Listen!</a>
+            <div>Link: {playlist.external_urls.spotify}</div>
+          </div>
+        </div>
       )}
       </div>
   </div>

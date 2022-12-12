@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
 
 const Login = ({ onLogin }) => {
@@ -26,9 +27,9 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div>
+    <div className="login">
       {!token && (
-        <button onClick={handleLogin}>Login with Spotify</button>
+        <Button variant="primary" className="green-button" onClick={handleLogin}>Login with Spotify</Button>
       )}
     </div>
   );
