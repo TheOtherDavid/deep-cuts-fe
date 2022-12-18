@@ -13,7 +13,7 @@ const Login = ({ onLogin }) => {
 
   useEffect(() => {
     const fetchToken = async () => {
-      const resp = await axios.get(`http://localhost:8080/token?code=${code}`);
+      const resp = await axios.get(`${process.env.REACT_APP_BE_API_URL}/token?code=${code}`);
       onLogin(resp.data.token);
     };
 
@@ -23,7 +23,7 @@ const Login = ({ onLogin }) => {
   }, [code, onLogin]);
 
   const handleLogin = () => {
-    window.location = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}\u0026redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F\u0026response_type=code\u0026scope=playlist-modify-private+playlist-modify-public\u0026state=abc123`;
+    window.location = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}\u0026redirect_uri=${process.env.REACT_APP_SPOTIFY_CALLBACK_URL}\u0026response_type=code\u0026scope=playlist-modify-private+playlist-modify-public\u0026state=abc123`;
   };
 
   return (

@@ -12,7 +12,9 @@ const code = new URLSearchParams(window.location.search).get('code')
 function App() {
   const [token, setToken] = useState("");
 
-  return (
+  return (<>
+    <h1>Deep Cuts</h1>
+    <p>This app will remix your playlists, for when you want something different... but not TOO different. For every song on a playlist, Deep Cuts will get a different song from the same album. It will put these songs into a new playlist on your account!</p>
     <div className="playlist-container">
       {!token && <Login onLogin={setToken} />}
       <div className="get-playlist-form-container">
@@ -22,6 +24,7 @@ function App() {
         {token && <GeneratePlaylist token={token} />}
       </div>
     </div>
+    </>
   );
 };
 
@@ -33,7 +36,7 @@ function GetPlaylistForm({ token }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const resp = await axios.get(`http://localhost:8080/${playlistId}`,
+    const resp = await axios.get(`${process.env.REACT_APP_BE_API_URL}/${playlistId}`,
     {
       headers: {
         'Authorization': "Bearer " + token
@@ -93,7 +96,7 @@ function GeneratePlaylist({ token }) {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const resp = await axios.post(`http://localhost:8080/${playlistId}`, null,
+    const resp = await axios.post(`${process.env.REACT_APP_BE_API_URL}/${playlistId}`, null,
     {
       headers: {
         'Authorization': "Bearer " + token
@@ -139,7 +142,7 @@ function GeneratePlaylist({ token }) {
 function GetToken({ setToken }) {
   //const [tokenState, setToken] = useState([]);
   useEffect(async() => {
-    const resp = await axios.get(`http://localhost:8080/token?code=${code}`)
+    const resp = await axios.get(`${process.env.REACT_APP_BE_API_URL}/token?code=${code}`)
     const token = resp.data.token
     //Are we setting the state properly here?
     setToken(token);
