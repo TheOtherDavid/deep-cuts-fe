@@ -14,7 +14,7 @@ function App() {
 
   return (<>
     <h1>Deep Cuts</h1>
-    <p>This app will remix your playlists, for when you want something different... but not TOO different. For every song on a playlist, Deep Cuts will get a different song from the same album. It will put these songs into a new playlist on your account!</p>
+    <p>This app will remix your playlists, for when you want something different... but not TOO different. For each song on a playlist, Deep Cuts will get a different song from the same album. It will put these songs into a new playlist on your account!</p>
     <div className="playlist-container">
       {!token && <Login onLogin={setToken} />}
       <div className="get-playlist-form-container">
